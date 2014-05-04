@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="server_endpoint">http://www.itu.dk/people/jacok/MMAD/services/images/</string>
+</resources>
