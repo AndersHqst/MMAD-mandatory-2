@@ -37,6 +37,13 @@ public class ImageActivity extends ActionBarActivity implements ImageManager.ICa
                 String imageUrl = imageUrls.get(position);
                 return ImageFragment.newInstance(imageUrl);
             }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                String imageUrl = imageUrls.get(position);
+                String imageName =  Uri.parse(imageUrl).getLastPathSegment();
+                return imageName;
+            }
         });
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -48,7 +55,7 @@ public class ImageActivity extends ActionBarActivity implements ImageManager.ICa
             @Override
             public void onPageSelected(int position) {
                 String imageUrl = imageUrls.get(position);
-                String imageName =  Uri.parse(imageUrl.toString()).getLastPathSegment();
+                String imageName =  Uri.parse(imageUrl).getLastPathSegment();
                 setTitle(imageName);
             }
 
@@ -67,15 +74,10 @@ public class ImageActivity extends ActionBarActivity implements ImageManager.ICa
 
     @Override
     public void imageUrlsUpdated(ArrayList<String> imageUrls) {
+        if(this.imageUrls.size() == 0){
+            setTitle(Uri.parse(imageUrls.get(0)).getLastPathSegment());
+        }
         this.imageUrls = imageUrls;
         this.mViewPager.getAdapter().notifyDataSetChanged();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-        String imageUrl = imageUrls.get(mViewPager.getAdapter().getItemPosition(mViewPager.getCurrentItem()));
-        String imageName =  Uri.parse(imageUrl.toString()).getLastPathSegment();
-        setTitle(imageName);
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hqst.imageviewer.app" >
+    package="com.hqst.imageviewer.app"
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -10,6 +11,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:name="com.hqst.imageviewer.app.ImageActivity"
             android:label="@string/app_name" >
             <intent-filter>
