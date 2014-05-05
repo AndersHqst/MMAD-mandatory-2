@@ -1,19 +1,31 @@
 package com.hqst.imageviewer.app;
 
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import java.util.ArrayList;
 
 public class ImageActivity extends ActionBarActivity implements ImageManager.ICallback {
-    
+
+    private static final String FRAGMENT_DIALOG_TAG = "FRAGMENT_DIALOG_TAG";
     private ViewPager mViewPager;
     private ArrayList<String> imageUrls = new ArrayList<String>();
+
+    public void showGridViewDialog(){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag(FRAGMENT_DIALOG_TAG);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        ThumbnailFragment newFragment = ThumbnailFragment.newInstance(imageUrls);
+        newFragment.show(ft, FRAGMENT_DIALOG_TAG);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +53,7 @@ public class ImageActivity extends ActionBarActivity implements ImageManager.ICa
             @Override
             public CharSequence getPageTitle(int position) {
                 String imageUrl = imageUrls.get(position);
-                String imageName =  Uri.parse(imageUrl).getLastPathSegment();
-                return imageName;
+                return  Uri.parse(imageUrl).getLastPathSegment();
             }
         });
 
@@ -79,5 +90,11 @@ public class ImageActivity extends ActionBarActivity implements ImageManager.ICa
         }
         this.imageUrls = imageUrls;
         this.mViewPager.getAdapter().notifyDataSetChanged();
+    }
+
+    public void showImage(String s) {
+        int index = imageUrls.indexOf(s);
+        mViewPager.setCurrentItem(index);
+        mViewPager.getAdapter().notifyDataSetChanged();
     }
 }

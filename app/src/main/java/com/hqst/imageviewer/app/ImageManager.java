@@ -64,6 +64,21 @@ public class ImageManager {
         }
     }
 
+    public static Bitmap getThumbnail(String imageUrl, Context context){
+        String fileName = Uri.parse(imageUrl.toString()).getLastPathSegment();
+        File file = context.getFileStreamPath(fileName);
+        Bitmap thumbNail = null;
+        if(file.exists()) {
+            thumbNail = BitmapFactory.decodeFile(file.getPath());
+            // Scaled Bitmap, no filter
+            Bitmap.createScaledBitmap(thumbNail, 85, 85, false);
+        }
+        else{
+            Log.e(TAG, "Attempt to return thumbnail for image that has not been downloaded.");
+        }
+        return thumbNail;
+    }
+
 
     public interface ICallback{
         public abstract void imageUrlsUpdated(ArrayList<String> imageUrls);
