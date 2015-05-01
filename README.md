@@ -1,1 +1,1 @@
-Mandatory android hand for the Mobile Application Development course at ITU
+Mandatory android hand in for the Mobile Application Development course at ITU
